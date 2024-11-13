@@ -1,6 +1,9 @@
-import { Link, Outlet } from 'react-router-dom';
-import styles from './Layout.module.css';
+import { NavLink, Outlet } from 'react-router-dom';
+import Headling from '../../components/Headling/Headling';
 import Button from '../../components/Button/Button';
+import cn from 'classnames';
+import styles from './Layout.module.css';
+import Input from '../../components/Input/Input';
 
 const Layout = () => {
    return (
@@ -12,21 +15,35 @@ const Layout = () => {
                <div className={styles['email']}>example@gmail.com</div>
             </div>
             <div className={styles['menu']}>
-               <Link to='/' className={styles['link']}>
+               <NavLink
+                  to='/'
+                  className={({ isActive }) =>
+                     cn(styles['link'], {
+                        [styles.active]: isActive,
+                     })
+                  }
+               >
                   <img src='/menu.svg' alt='иконка меню' />
                   Меню
-               </Link>
-               <Link to='/cart' className={styles['link']}>
+               </NavLink>
+               <NavLink
+                  to='/cart'
+                  className={({ isActive }) =>
+                     cn(styles['link'], {
+                        [styles.active]: isActive,
+                     })
+                  }
+               >
                   <img src='/cart.svg' alt='иконка корзины' />
                   Корзина
-               </Link>
+               </NavLink>
             </div>
             <Button className={styles['exit']}>
                <img src='/exit.svg' alt='иконка выхода' />
                Выход
             </Button>
          </div>
-         <div>
+         <div className={styles['content']}>
             <Outlet />
          </div>
       </div>

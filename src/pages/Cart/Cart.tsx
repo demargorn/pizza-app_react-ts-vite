@@ -1,6 +1,11 @@
+import Headling from '../../components/Headling/Headling';
 
 const Cart = () => {
-   return <>Корзина</>;
+   return (
+      <>
+         <Headling>Корзина</Headling>
+      </>
+   );
 };
 
 export default Cart;

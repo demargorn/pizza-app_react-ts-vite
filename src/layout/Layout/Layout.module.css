@@ -50,10 +50,23 @@
    color: var(--text-color);
 }
 
+.link:hover {
+   color: var(--primary-color);
+}
+
+.active {
+   color: var(--primary-color);
+}
+
 .exit {
    display: flex;
    align-items: center;
    justify-content: space-evenly;
    gap: 10px;
    margin-top: auto;
+}
+
+.content {
+   width: 100%;
+   padding: 40px 60px;
 }
