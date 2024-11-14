@@ -1,10 +1,10 @@
-interface IProductCardProps {
+interface IProduct {
    id: number;
    name: string;
    price: number;
-   ingredients: string;
+   ingredients: string[];
    image: string;
    rating: number;
 }
 
-export default IProductCardProps;
+export default IProduct;
