@@ -1,24 +1,36 @@
+import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { PREFIX } from '../../helpers/API';
 import IProduct from '../../interfaces/product.interface';
+import MenuList from './MenuList/MenuList';
 import Headling from '../../components/Headling/Headling';
-import ProductCard from '../../components/ProductCard/ProductCard';
 import Search from '../../components/Search/Search';
 import styles from './Menu.module.css';
 
 const Menu = () => {
-   const [products, setProducts] = useState<IProduct[]>([]);
+   const [products, setProducts] = useState<IProduct[]>([]); // состояние списка продуктов
+   const [isLoading, setIsLoading] = useState<boolean>(false); // состояние загрузки
+   const [error, setError] = useState<string | undefined>(); // состояние ошибки загрузки
 
+   // async fn загрузки списка продуктов
    const getMenu = async () => {
       try {
-         const res = await fetch(`${PREFIX}/products`);
-         if (!res.ok) {
-            return;
-         }
-         const data = (await res.json()) as IProduct[];
+         setIsLoading(true); // начинаем загрузку
+         // делаем задержку для иммитации загрузки списка (для медленных подключений)
+         // await new Promise<void>((resolve) => {
+         //    setTimeout(() => {
+         //       resolve();
+         //    }, 2000);
+         // });
+         const { data } = await axios.get<IProduct[]>(`${PREFIX}/products`);
          setProducts(data);
+         setIsLoading(false); // прекращаем загрузку
       } catch (error) {
-         console.log(error);
+         // проверяем тип ошибки
+         if (error instanceof AxiosError) {
+            setError(error.message);
+         }
+         setIsLoading(false); // в случае ошибки прекращаем загрузку
          return;
       }
    };
@@ -34,17 +46,12 @@ const Menu = () => {
             <Search placeholder='Введите блюдо или состав' />
          </div>
          <div>
-            {products.map((product) => (
-               <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  price={product.price}
-                  ingredients={product.ingredients.join(', ')}
-                  image={product.image}
-                  rating={product.rating}
-               />
-            ))}
+            {/* показываем сообщение об ошибке в случае ошибки из axios */}
+            {error && <>{error}</>}
+            {/* показываем список продуктов после загрузки */}
+            {!isLoading && <MenuList products={products} />}
+            {/* показываем заголовок загрузки продуктов */}
+            {isLoading && <>Загружаем список продуктов...</>}
          </div>
       </>
    );

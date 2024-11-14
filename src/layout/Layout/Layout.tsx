@@ -1,9 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import Headling from '../../components/Headling/Headling';
 import Button from '../../components/Button/Button';
 import cn from 'classnames';
 import styles from './Layout.module.css';
-import Input from '../../components/Input/Input';
 
 const Layout = () => {
    return (

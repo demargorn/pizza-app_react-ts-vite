@@ -21,7 +21,7 @@ const ProductCard = (props: IProductCardProps) => {
             </div>
             <div className={styles['footer']}>
                <div className={styles['title']}>{props.name}</div>
-               <div className={styles['description']}>{props.description}</div>
+               <div className={styles['description']}>{props.ingredients}</div>
             </div>
          </div>
       </Link>

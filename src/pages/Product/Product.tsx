@@ -1,10 +1,11 @@
-import { useParams } from 'react-router-dom';
-import styles from './Product.module.css';
+import { useLoaderData } from 'react-router-dom';
+import IProduct from '../../interfaces/product.interface';
+// import styles from './Product.module.css';
 
 const Product = () => {
-   const {id} = useParams()
+   const data = useLoaderData() as IProduct; // получаем data посредством хука React.Router
 
-   return <>Product - {id}</>;
+   return <>Product - {data.name}</>;
 };
 
 export default Product;
