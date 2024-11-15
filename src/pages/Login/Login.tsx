@@ -1,15 +1,18 @@
 import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { PREFIX } from '../../helpers/API';
 import Headling from '../../components/Headling/Headling';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import ILoginForm from '../../interfaces/LoginForm.interface';
+import ILoginResponce from '../../interfaces/Auth.interface';
 import styles from './Login.module.css';
 
 const Login = () => {
    const [error, setError] = useState<string | null>();
+   const navigate = useNavigate();
+
    const submit = async (e: FormEvent) => {
       e.preventDefault();
       setError(null);
@@ -20,10 +23,12 @@ const Login = () => {
 
    const sendLogin = async (email: string, password: string) => {
       try {
-         const { data } = await axios.post(`${PREFIX}/auth/login`, {
+         const { data } = await axios.post<ILoginResponce>(`${PREFIX}/auth/login`, {
             email,
             password,
          });
+         localStorage.setItem('jwt', data.access_token); // сохраняем полученный токен в local slorage
+         navigate('/');
       } catch (error) {
          if (error instanceof AxiosError) {
             setError(error.message);
