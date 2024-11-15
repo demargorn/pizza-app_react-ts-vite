@@ -42,7 +42,7 @@ const Layout = () => {
             </Button>
          </div>
          <div className={styles['content']}>
-            <Outlet />
+            <Outlet /> {/*для подставления children-компонентов*/}
          </div>
       </div>
    );

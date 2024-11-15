@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { PREFIX } from '../../helpers/API';
-import IProduct from '../../interfaces/product.interface';
+import IProduct from '../../interfaces/Product.interface';
 import MenuList from './MenuList/MenuList';
 import Headling from '../../components/Headling/Headling';
 import Search from '../../components/Search/Search';
@@ -16,12 +16,6 @@ const Menu = () => {
    const getMenu = async () => {
       try {
          setIsLoading(true); // начинаем загрузку
-         // делаем задержку для иммитации загрузки списка (для медленных подключений)
-         // await new Promise<void>((resolve) => {
-         //    setTimeout(() => {
-         //       resolve();
-         //    }, 2000);
-         // });
          const { data } = await axios.get<IProduct[]>(`${PREFIX}/products`);
          setProducts(data);
          setIsLoading(false); // прекращаем загрузку

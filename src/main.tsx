@@ -1,12 +1,16 @@
 import axios from 'axios';
 import { lazy, StrictMode, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
 import { PREFIX } from './helpers/API.ts';
-import Layout from './layout/Layout/Layout.tsx';
+import RequireAuth from './helpers/RequireAuth.tsx';
+import AuthLayout from './layout/Auth/AuthLayout.tsx';
+import Layout from './layout/Menu/Layout.tsx';
 import Cart from './pages/Cart/Cart';
 import ErrorPage from './pages/Error/Error';
 import Product from './pages/Product/Product.tsx';
+import Login from './pages/Login/Login.tsx';
+import Register from './pages/Register/Register.tsx';
 import './index.css';
 
 const Menu = lazy(() => import('./pages/Menu/Menu')); // ленивая загрузка
@@ -15,7 +19,13 @@ const Menu = lazy(() => import('./pages/Menu/Menu')); // ленивая загр
 const router = createBrowserRouter([
    {
       path: '/', // путь
-      element: <Layout />, // компонент
+      element: (
+         /* проверка на авторизацию */
+         <RequireAuth>
+            <Layout />
+         </RequireAuth>
+      ),
+      // несколько страниц в элементе
       children: [
          {
             path: '/',
@@ -26,28 +36,45 @@ const router = createBrowserRouter([
             ),
          },
          {
-            path: '/cart',
-            element: <Cart />,
+            path: '/cart', // путь
+            element: <Cart />, // компонент
          },
          {
             path: '/products/:id',
             element: <Product />,
-            errorElement: <>Error</>, // будет показан компонент в случае ошибки в loader
+            errorElement: <>Ошибка</>, // будет показан компонент в случае ошибки в loader
             // функция говорит как загрузить компонент (id === params.id)
             loader: async ({ params }) => {
-               await new Promise<void>((resolve) => {
-                  setTimeout(() => {
-                     resolve();
-                  }, 2000);
+               return defer({
+                  data: new Promise((resolve, reject) => {
+                     setTimeout(() => {
+                        axios
+                           .get(`${PREFIX}/products/${params.id}`)
+                           .then((data) => resolve(data))
+                           .catch((e) => reject(e));
+                     }, 1000);
+                  }),
                });
-               const { data } = await axios.get(`${PREFIX}/products/${params.id}`);
-               return data;
             },
          },
       ],
    },
    {
-      path: '*', // все осталтные пути
+      path: '/auth',
+      element: <AuthLayout />,
+      children: [
+         {
+            path: 'login', // путь без слэша
+            element: <Login />,
+         },
+         {
+            path: 'register', // путь без слэша
+            element: <Register />,
+         },
+      ],
+   },
+   {
+      path: '*', // все остальные пути
       element: <ErrorPage />,
    },
 ]);

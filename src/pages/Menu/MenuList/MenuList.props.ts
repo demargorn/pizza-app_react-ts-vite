@@ -1,4 +1,4 @@
-import IProduct from '../../../interfaces/product.interface';
+import IProduct from '../../../interfaces/Product.interface';
 
 interface IMenuListProps {
    products: IProduct[];
