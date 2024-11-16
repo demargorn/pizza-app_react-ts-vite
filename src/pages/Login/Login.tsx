@@ -1,7 +1,10 @@
 import { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios, { AxiosError } from 'axios';
 import { PREFIX } from '../../helpers/API';
+import { TypeAppDispatch } from '../../store/store';
+import { userActions } from '../../store/user.slice';
 import Headling from '../../components/Headling/Headling';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
@@ -12,6 +15,7 @@ import styles from './Login.module.css';
 const Login = () => {
    const [error, setError] = useState<string | null>();
    const navigate = useNavigate();
+   const dispatch = useDispatch<TypeAppDispatch>(); // хук позволяет устанавливать состояние
 
    const submit = async (e: FormEvent) => {
       e.preventDefault();
@@ -28,6 +32,7 @@ const Login = () => {
             password,
          });
          localStorage.setItem('jwt', data.access_token); // сохраняем полученный токен в local slorage
+         dispatch(userActions.addJwt(data.access_token)); // заполнили state токеном
          navigate('/');
       } catch (error) {
          if (error instanceof AxiosError) {

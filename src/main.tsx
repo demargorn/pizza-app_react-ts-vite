@@ -3,6 +3,8 @@ import { lazy, StrictMode, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
 import { PREFIX } from './helpers/API.ts';
+import { Provider } from 'react-redux';
+import store from './store/store.ts';
 import RequireAuth from './helpers/RequireAuth.tsx';
 import AuthLayout from './layout/Auth/AuthLayout.tsx';
 import Layout from './layout/Menu/Layout.tsx';
@@ -81,6 +83,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
    <StrictMode>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+         <RouterProvider router={router} />
+      </Provider>
    </StrictMode>
 );
+
+// => video 112
