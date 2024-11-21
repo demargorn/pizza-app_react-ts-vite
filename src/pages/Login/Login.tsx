@@ -31,7 +31,6 @@ const Login = () => {
             email,
             password,
          });
-         localStorage.setItem('jwt', data.access_token); // сохраняем полученный токен в local slorage
          dispatch(userActions.addJwt(data.access_token)); // заполнили state токеном
          navigate('/');
       } catch (error) {

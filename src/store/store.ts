@@ -1,11 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userSlice from './user.slice';
+import userSlice, { JWT_PERSISTENT_STATE } from './user.slice';
+import { saveState } from './storage';
 
 // создаем хранилище
 const store = configureStore({
    reducer: {
       user: userSlice,
    },
+});
+
+// при изменении состояния берем токен и записываем его в JWT_PERSISTENT_STATE
+store.subscribe(() => {
+   saveState({ jwt: store.getState().user.jwt }, JWT_PERSISTENT_STATE);
 });
 
 export type TypeRootState = ReturnType<typeof store.getState>;
