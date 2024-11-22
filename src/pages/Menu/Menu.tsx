@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { PREFIX } from '../../helpers/API';
 import IProduct from '../../interfaces/Product.interface';
 import MenuList from './MenuList/MenuList';
@@ -11,12 +11,21 @@ const Menu = () => {
    const [products, setProducts] = useState<IProduct[]>([]); // состояние списка продуктов
    const [isLoading, setIsLoading] = useState<boolean>(false); // состояние загрузки
    const [error, setError] = useState<string | undefined>(); // состояние ошибки загрузки
+   const [filter, setFilter] = useState<string>(); // состояние строки поиска
+
+   useEffect(() => {
+      getMenu(filter);
+   }, [filter]);
 
    // async fn загрузки списка продуктов
-   const getMenu = async () => {
+   const getMenu = async (name?: string) => {
       try {
          setIsLoading(true); // начинаем загрузку
-         const { data } = await axios.get<IProduct[]>(`${PREFIX}/products`);
+         const { data } = await axios.get<IProduct[]>(`${PREFIX}/products`, {
+            params: {
+               name,
+            },
+         });
          setProducts(data);
          setIsLoading(false); // прекращаем загрузку
       } catch (error) {
@@ -29,21 +38,21 @@ const Menu = () => {
       }
    };
 
-   useEffect(() => {
-      getMenu();
-   }, []);
-
+   const updateFilter = (e: ChangeEvent<HTMLInputElement>) => {
+      setFilter(e.target.value);
+   };
    return (
       <>
          <div className={styles['head']}>
             <Headling>Меню</Headling>
-            <Search placeholder='Введите блюдо или состав' />
+            <Search placeholder='Введите блюдо или состав' onChange={updateFilter} />
          </div>
          <div>
             {/* показываем сообщение об ошибке в случае ошибки из axios */}
             {error && <>{error}</>}
             {/* показываем список продуктов после загрузки */}
-            {!isLoading && <MenuList products={products} />}
+            {!isLoading && products.length > 0 && <MenuList products={products} />}
+            {!isLoading && products.length === 0 && <>Не найдено блюд по запросу</>}
             {/* показываем заголовок загрузки продуктов */}
             {isLoading && <>Загружаем список продуктов...</>}
          </div>

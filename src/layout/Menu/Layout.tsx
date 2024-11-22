@@ -11,6 +11,7 @@ const Layout = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch<TypeAppDispatch>();
    const profile = useSelector((s: TypeRootState) => s.user.profile);
+   const items = useSelector((s: TypeRootState) => s.cart.items); // сколько находится в корзине
 
    useEffect(() => {
       dispatch(getProfile());
@@ -50,7 +51,7 @@ const Layout = () => {
                   }
                >
                   <img src='/cart.svg' alt='иконка корзины' />
-                  Корзина
+                  Корзина <span className={styles['item-count']}>{items.reduce((acc, item) => acc + item.count, 0)}</span>
                </NavLink>
             </div>
             <Button className={styles['exit']} onClick={logOut}>

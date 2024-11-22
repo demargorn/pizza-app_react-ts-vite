@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userSlice, { JWT_PERSISTENT_STATE } from './user.slice';
 import { saveState } from './storage';
+import userSlice, { JWT_PERSISTENT_STATE } from './user.slice';
+import cartSlice from './cart.slice';
 
 // создаем хранилище
 const store = configureStore({
    reducer: {
       user: userSlice,
+      cart: cartSlice,
    },
 });
 

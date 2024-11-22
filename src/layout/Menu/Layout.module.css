@@ -54,6 +54,18 @@
    color: var(--primary-color);
 }
 
+.item-count {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 20px;
+   height: 20px;
+   font-size: 12px;
+   background: var(--primary-color);
+   border-radius: 50%;
+   color: var(--white-color);
+} 
+
 .active {
    color: var(--primary-color);
 }
