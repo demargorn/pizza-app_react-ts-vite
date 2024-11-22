@@ -1,9 +1,10 @@
 import IProfile from './user.interface';
 
-interface UserState {
+interface IUserState {
    jwt: string | null;
    loginErrorMessage?: string;
+   registerErrorMessage?: string;
    profile?: IProfile;
 }
 
-export default UserState;
+export default IUserState;

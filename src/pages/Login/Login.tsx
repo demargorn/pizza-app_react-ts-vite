@@ -3,10 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { TypeAppDispatch, TypeRootState } from '../../store/store';
 import { login, userActions } from '../../store/user.slice';
+import ILoginForm from '../../interfaces/LoginForm.interface';
 import Headling from '../../components/Headling/Headling';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
-import ILoginForm from '../../interfaces/LoginForm.interface';
 import styles from './Login.module.css';
 
 const Login = () => {
