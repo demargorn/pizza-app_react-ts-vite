@@ -32,7 +32,7 @@ const cartSlice = createSlice({
             return;
          }
          if (existed.count === 1) {
-            state.items = state.items.filter((i) => i.id === action.payload);
+            state.items = state.items.filter((i) => i.id !== action.payload);
          } else {
             state.items.map((i) => {
                if (i.id === action.payload) {
