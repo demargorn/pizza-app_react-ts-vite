@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 import { TypeRootState } from '../../store/store';
 import { PREFIX } from '../../helpers/API';
 import IProduct from '../../interfaces/Product.interface';
 import Headling from '../../components/Headling/Headling';
 import CartItem from '../../components/CartItem/CartItem';
-import axios from 'axios';
+import styles from './Cart.module.css';
 
 const Cart = () => {
    const [cartProducts, setCartProducts] = useState<IProduct[]>([]);
@@ -27,13 +28,13 @@ const Cart = () => {
 
    return (
       <>
-         <Headling>Корзина</Headling>
+         <Headling className={styles['headling']}>Корзина</Headling>
          {items.map((i) => {
             const product = cartProducts.find((p) => p.id === i.id);
             if (!product) {
                return;
             }
-            return <CartItem count={i.count} {...product} />;
+            return <CartItem key={product.id} count={i.count} {...product} />;
          })}
       </>
    );

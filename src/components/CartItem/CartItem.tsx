@@ -7,31 +7,38 @@ import styles from './CartItem.module.css';
 const CartItem = (props: ICartItemProps) => {
    const dispatch = useDispatch<TypeAppDispatch>();
 
-   // функция добавления в корзину
+   // функция увеличения количества в корзине
    const increase = () => {
       dispatch(cartActions.add(props.id));
    };
 
-   const decrease = () => {};
-   const remove = () => {};
+   // функция уменьшения количества в корзине
+   const decrease = () => {
+      dispatch(cartActions.remove(props.id));
+   };
+
+   // функция удаления элемента из корзины
+   const remove = () => {
+      dispatch(cartActions.delete(props.id));
+   };
 
    return (
       <div className={styles['item']}>
-         <div className={styles['image']} style={{ backgroundImage: `url(${props.image}')` }}></div>
+         <div className={styles['image']} style={{ backgroundImage: `url(${props.image})` }}></div>
          <div className={styles['description']}>
             <div className={styles['name']}>{props.name}</div>
-            <div className={styles['currency']}>{props.price}&nbsp;₽</div>
+            <div className={styles['price']}>{props.price}&nbsp;₽</div>
          </div>
          <div className={styles['actions']}>
             <button className={styles['button']} onClick={decrease}>
-               <img src='/add-to-cart.svg' alt='удалить из корзины' />
+               <img src='/minus.svg' alt='удалить из корзины' />
             </button>
-            <div>{props.count}</div>
+            <div className={styles['number']}>{props.count}</div>
             <button className={styles['button']} onClick={increase}>
-               <img src='/add-to-cart.svg' alt='добавить в корзину' />
+               <img src='/plus.svg' alt='добавить в корзину' />
             </button>
             <button className={styles['remove']} onClick={remove}>
-               <img src='/add-to-cart.svg' alt='удалить элемент' />
+               <img src='/delete.svg' alt='удалить элемент' />
             </button>
          </div>
       </div>

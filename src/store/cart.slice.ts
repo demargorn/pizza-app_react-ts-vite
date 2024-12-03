@@ -9,7 +9,7 @@ const cartSlice = createSlice({
    name: 'user',
    initialState,
    reducers: {
-      // добавляем новый элемент в корзину
+      // прибавляем количество элементов в корзине
       add: (state, action: PayloadAction<number>) => {
          const existed = state.items.find((i) => i.id === action.payload);
          // если не существует - добавляем новый
@@ -25,8 +25,29 @@ const cartSlice = createSlice({
             return i;
          });
       },
+      //  убавляем количество элементов в корзине
+      remove: (state, action: PayloadAction<number>) => {
+         const existed = state.items.find((i) => i.id === action.payload);
+         if (!existed) {
+            return;
+         }
+         if (existed.count === 1) {
+            state.items = state.items.filter((i) => i.id === action.payload);
+         } else {
+            state.items.map((i) => {
+               if (i.id === action.payload) {
+                  i.count -= 1;
+               }
+               return i;
+            });
+            return;
+         }
+      },
+      // удаляем элемент из корзины
+      delete: (state, action: PayloadAction<number>) => {
+         state.items = state.items.filter((i) => i.id !== action.payload);
+      },
    },
-   extraReducers: (builder) => {},
 });
 
 export default cartSlice.reducer;
