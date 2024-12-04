@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loadState } from './storage';
 import ICartState from '../interfaces/CartState.interface';
 
-const initialState: ICartState = {
+const CART_PERSISTENT_STATE = 'cartData';
+
+const initialState: ICartState = loadState<ICartState>(CART_PERSISTENT_STATE) ?? {
    items: [],
 };
 
@@ -47,8 +50,13 @@ const cartSlice = createSlice({
       delete: (state, action: PayloadAction<number>) => {
          state.items = state.items.filter((i) => i.id !== action.payload);
       },
+      // очистка корзины
+      clean: (state) => {
+         state.items = [];
+      }
    },
 });
 
 export default cartSlice.reducer;
 export const cartActions = cartSlice.actions;
+export { CART_PERSISTENT_STATE };

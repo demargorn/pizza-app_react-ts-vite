@@ -12,6 +12,7 @@ import Cart from './pages/Cart/Cart';
 import ErrorPage from './pages/Error/Error';
 import Product from './pages/Product/Product.tsx';
 import Login from './pages/Login/Login.tsx';
+import Success from './pages/Success/Success.tsx';
 import Register from './pages/Register/Register.tsx';
 import './index.css';
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
          {
             path: '/cart', // путь
             element: <Cart />, // компонент
+         },
+         {
+            path: '/success',
+            element: <Success />,
          },
          {
             path: '/products/:id',
@@ -88,5 +93,3 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </Provider>
    </StrictMode>
 );
-
-// => video 122
