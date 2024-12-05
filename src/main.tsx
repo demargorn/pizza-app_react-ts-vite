@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       // несколько страниц в элементе
       children: [
          {
-            path: '/',
+            path: '/pizza-app_react-ts-vite',
             element: (
                <Suspense fallback={<>Загрузка...</>}>
                   <Menu />
