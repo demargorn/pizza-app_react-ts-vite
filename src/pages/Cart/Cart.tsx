@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { TypeAppDispatch, TypeRootState } from '../../store/store';
+import { cartActions } from '../../store/cart.slice';
 import { PREFIX } from '../../helpers/API';
 import IProduct from '../../interfaces/Product.interface';
 import Headling from '../../components/Headling/Headling';
 import CartItem from '../../components/CartItem/CartItem';
-import styles from './Cart.module.css';
 import Button from '../../components/Button/Button';
-import { cartActions } from '../../store/cart.slice';
+import styles from './Cart.module.css';
 
 const DELIVERY = 169;
 

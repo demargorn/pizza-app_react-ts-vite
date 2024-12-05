@@ -1,4 +1,3 @@
-
 const Error = () => {
    return <>Error</>;
 };

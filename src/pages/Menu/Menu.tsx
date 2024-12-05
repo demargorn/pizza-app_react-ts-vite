@@ -1,5 +1,5 @@
-import axios, { AxiosError } from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
+import axios, { AxiosError } from 'axios';
 import { PREFIX } from '../../helpers/API';
 import IProduct from '../../interfaces/Product.interface';
 import MenuList from './MenuList/MenuList';
@@ -12,10 +12,6 @@ const Menu = () => {
    const [isLoading, setIsLoading] = useState<boolean>(false); // состояние загрузки
    const [error, setError] = useState<string | undefined>(); // состояние ошибки загрузки
    const [filter, setFilter] = useState<string>(); // состояние строки поиска
-
-   useEffect(() => {
-      getMenu(filter);
-   }, [filter]);
 
    // async fn загрузки списка продуктов
    const getMenu = async (name?: string) => {
@@ -41,6 +37,11 @@ const Menu = () => {
    const updateFilter = (e: ChangeEvent<HTMLInputElement>) => {
       setFilter(e.target.value);
    };
+
+   useEffect(() => {
+      getMenu(filter);
+   }, [filter]);
+
    return (
       <>
          <div className={styles['head']}>

@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { lazy, StrictMode, Suspense } from 'react';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
+import axios from 'axios';
 import { PREFIX } from './helpers/API.ts';
-import { Provider } from 'react-redux';
 import store from './store/store.ts';
 import RequireAuth from './helpers/RequireAuth.tsx';
 import AuthLayout from './layout/Auth/AuthLayout.tsx';
@@ -21,7 +21,7 @@ const Menu = lazy(() => import('./pages/Menu/Menu')); // ленивая загр
 // создаем роутер
 const router = createBrowserRouter([
    {
-      path: '/', // путь
+      path: '/',
       element: (
          /* проверка на авторизацию */
          <RequireAuth>

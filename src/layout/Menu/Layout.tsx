@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import cn from 'classnames';
 import { TypeAppDispatch, TypeRootState } from '../../store/store';
 import { getProfile, userActions } from '../../store/user.slice';
-import cn from 'classnames';
 import Button from '../../components/Button/Button';
 import styles from './Layout.module.css';
 
@@ -13,14 +13,14 @@ const Layout = () => {
    const profile = useSelector((s: TypeRootState) => s.user.profile);
    const items = useSelector((s: TypeRootState) => s.cart.items); // сколько находится в корзине
 
-   useEffect(() => {
-      dispatch(getProfile());
-   }, [dispatch]);
-
    const logOut = () => {
       dispatch(userActions.logOut());
       navigate('/auth/login');
    };
+
+   useEffect(() => {
+      dispatch(getProfile());
+   }, [dispatch]);
 
    return (
       <div className={styles['layout']}>
@@ -51,7 +51,10 @@ const Layout = () => {
                   }
                >
                   <img src='/cart.svg' alt='иконка корзины' />
-                  Корзина <span className={styles['item-count']}>{items.reduce((acc, item) => acc + item.count, 0)}</span>
+                  Корзина
+                  <span className={styles['item-count']}>
+                     {items.reduce((acc, item) => acc + item.count, 0)}
+                  </span>
                </NavLink>
             </div>
             <Button className={styles['exit']} onClick={logOut}>
@@ -60,7 +63,7 @@ const Layout = () => {
             </Button>
          </div>
          <div className={styles['content']}>
-            <Outlet /> {/*для подставления children-компонентов*/}
+            <Outlet />
          </div>
       </div>
    );
